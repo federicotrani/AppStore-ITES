@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppStore.mvvm.Views.ProductoListaPage"
+             xmlns:vmodel="clr-namespace:AppStore.mvvm.ViewModels"                  
+             Title="{Binding Title}">
+
+    <Grid Padding="5">
+        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding GetProductosCommand}">
+            <CollectionView 
+                SelectionChangedCommand="{Binding GoToDetalleCommand}"
+                ItemsSource="{Binding Productos}" 
+                SelectionMode="Single" 
+                EmptyView="--SIN DATOS DISPONIBLES--" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10">
+                            <Grid RowDefinitions="*,*" ColumnDefinitions="Auto, *">
+                                <Image Grid.Column="0" Grid.RowSpan="2" Source="{Binding RutaImagen}" WidthRequest="100" HeightRequest="100"/>
+                                <StackLayout Grid.Column="1">
+                                    <Label Text="{Binding Nombre}" FontSize="Large"/>
+                                    <Label Text="{Binding Precio, StringFormat='${0}'}" FontSize="Medium"/>
+                                </StackLayout>
+                            </Grid>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <Button 
+            Text="Nuevo"             
+            Command="{Binding GoToDetalleCommand}" 
+            CommandParameter="0" 
+            BackgroundColor="DarkMagenta"    
+            TextColor="White" 
+            CornerRadius="5" 
+            HorizontalOptions="End"
+            VerticalOptions="End"/>
+    </Grid>
+
+    
+    
+</ContentPage>
