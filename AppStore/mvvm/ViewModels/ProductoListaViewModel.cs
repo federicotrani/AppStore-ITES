@@ -16,7 +16,7 @@ public partial class ProductoListaViewModel : BaseViewModel
 
     public ProductoListaViewModel()
     {
-        Title = "Lista de Productos";
+        Title = Constants.AppName;
         
         Task.Run(async () => { await GetProductos(); }).Wait();
     }
@@ -38,6 +38,12 @@ public partial class ProductoListaViewModel : BaseViewModel
 
     [RelayCommand]
     private async Task GoToDetalle()
+    {
+        await Application.Current.MainPage.Navigation.PushAsync(new ProductoDetallePage());
+    }
+
+    [RelayCommand]
+    private async Task NuevoProducto()
     {
         await Application.Current.MainPage.Navigation.PushAsync(new ProductoDetallePage());
     }

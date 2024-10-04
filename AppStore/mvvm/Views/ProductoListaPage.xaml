@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppStore.mvvm.Views.ProductoListaPage"
-             xmlns:vmodel="clr-namespace:AppStore.mvvm.ViewModels"                  
+             xmlns:vmodel="clr-namespace:AppStore.mvvm.ViewModels"
              Title="{Binding Title}">
 
     <Grid Padding="5">
@@ -16,10 +16,17 @@
                     <DataTemplate>
                         <StackLayout Padding="10">
                             <Grid RowDefinitions="*,*" ColumnDefinitions="Auto, *">
-                                <Image Grid.Column="0" Grid.RowSpan="2" Source="{Binding RutaImagen}" WidthRequest="100" HeightRequest="100"/>
-                                <StackLayout Grid.Column="1">
-                                    <Label Text="{Binding Nombre}" FontSize="Large"/>
-                                    <Label Text="{Binding Precio, StringFormat='${0}'}" FontSize="Medium"/>
+                                <Image Grid.Column="0" Margin="10,0" Grid.RowSpan="2" Source="{Binding RutaImagen}" WidthRequest="80" HeightRequest="80"/>
+                                <StackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="{Binding Nombre}" TextColor="DarkRed" FontSize="Title"/>
+                                    <Label Text="{Binding Descripcion}" TextColor="DarkOliveGreen" FontSize="Small"/>
+                                    <Label 
+                                        VerticalOptions="End"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding Precio, StringFormat='${0}'}" 
+                                        FontSize="Subtitle" 
+                                        TextColor="DarkMagenta" 
+                                        FontAttributes="Bold"/>
                                 </StackLayout>
                             </Grid>
                         </StackLayout>
@@ -29,7 +36,7 @@
         </RefreshView>
         <Button 
             Text="Nuevo"             
-            Command="{Binding GoToDetalleCommand}" 
+            Command="{Binding NuevoProductoCommand}" 
             CommandParameter="0" 
             BackgroundColor="DarkMagenta"    
             TextColor="White" 

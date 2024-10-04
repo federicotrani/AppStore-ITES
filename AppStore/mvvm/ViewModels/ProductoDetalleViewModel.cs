@@ -1,9 +1,22 @@
-﻿namespace AppStore.mvvm.ViewModels;
+﻿using CommunityToolkit.Mvvm.Input;
+
+namespace AppStore.mvvm.ViewModels;
 
 public partial class ProductoDetalleViewModel : BaseViewModel
 {
     public ProductoDetalleViewModel()
     {
-        Title = "Detalle de Producto";
+        Title = Constants.AppName;
+    }
+
+    [RelayCommand] private async Task Cancelar()
+    {
+        await Application.Current.MainPage.Navigation.PopAsync();
+    }
+
+    [RelayCommand]
+    private async Task Grabar()
+    {
+        await Application.Current.MainPage.DisplayAlert("Carrito", "Producto agregado al registro", "Aceptar");
     }
 }

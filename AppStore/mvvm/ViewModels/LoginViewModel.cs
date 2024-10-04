@@ -9,7 +9,12 @@ public partial class LoginViewModel : BaseViewModel
 {
     public LoginViewModel()
     {
-        Title = "Login";
+        Title = Constants.AppName;
+#if DEBUG
+        // solo para Desarrollo - reemplazar por credenciales de prueba
+        Email = "luis.garcia@correo.com";
+        password = "1234";
+#endif
     }
 
     [ObservableProperty] private string email = string.Empty;

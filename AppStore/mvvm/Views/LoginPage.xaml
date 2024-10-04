@@ -3,19 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppStore.mvvm.Views.LoginPage"
              xmlns:viewModels="clr-namespace:AppStore.mvvm.ViewModels"
-             x:DataType="viewModels:LoginViewModel"
+             x:DataType="viewModels:LoginViewModel" 
              Title="{Binding Title}">
     <VerticalStackLayout Margin="10">
+        <Image Source="account.png" HeightRequest="150" HorizontalOptions="Center" />
         <Grid 
             RowSpacing="10"
             ColumnDefinitions=".3*,.7*" 
             RowDefinitions="*,*,*,*,*,*">
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Login" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Bienvenidos" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
             <Label Grid.Row="1" Grid.Column="0" Text="Email" VerticalOptions="Center" />
             <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Email}" Placeholder="Enter your username" />
             <Label Grid.Row="2" Grid.Column="0" Text="Password" VerticalOptions="Center" />
             <Entry Grid.Row="2" Grid.Column="1" Text="{Binding Password}" Placeholder="Enter your password" IsPassword="True" />
-            <Button IsEnabled="{Binding !IsBusy}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Login" Command="{Binding LoginCommand}" />
+            <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Login" Command="{Binding LoginCommand}" />
             <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Message}" FontSize="Small" TextColor="Red" HorizontalOptions="Center" VerticalOptions="Center" />
             <ActivityIndicator Grid.Row="5" Grid.ColumnSpan="2" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
         </Grid>
