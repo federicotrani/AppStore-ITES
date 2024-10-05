@@ -2,14 +2,15 @@
 
 namespace AppStore.mvvm.ViewModels;
 
-public partial class ProductoDetalleViewModel : BaseViewModel
+public partial class ProductoModificarViewModel : BaseViewModel
 {
-    public ProductoDetalleViewModel()
+    public ProductoModificarViewModel()
     {
         Title = Constants.AppName;
     }
 
-    [RelayCommand] private async Task Cancelar()
+    [RelayCommand]
+    private async Task Cancelar()
     {
         await Application.Current.MainPage.Navigation.PopAsync();
     }
@@ -17,6 +18,6 @@ public partial class ProductoDetalleViewModel : BaseViewModel
     [RelayCommand]
     private async Task Grabar()
     {
-        await Application.Current.MainPage.DisplayAlert("Carrito", "Producto agregado al registro", "Aceptar");
+        await Application.Current.MainPage.DisplayAlert("Producto", "Producto modificado", "Aceptar");
     }
 }

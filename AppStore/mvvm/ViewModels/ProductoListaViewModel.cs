@@ -39,12 +39,12 @@ public partial class ProductoListaViewModel : BaseViewModel
     [RelayCommand]
     private async Task GoToDetalle()
     {
-        await Application.Current.MainPage.Navigation.PushAsync(new ProductoDetallePage());
+        await Application.Current.MainPage.Navigation.PushAsync(new ProductoModificarPage());
     }
 
     [RelayCommand]
     private async Task NuevoProducto()
     {
-        await Application.Current.MainPage.Navigation.PushAsync(new ProductoDetallePage());
+        await Application.Current.MainPage.Navigation.PushAsync(new ProductoAgregarPage());
     }
 }

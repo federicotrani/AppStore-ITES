@@ -8,5 +8,6 @@ public class Producto
     public int Stock { get; set; }
     public string RutaImagen { get; set; }
     public decimal Precio { get; set; }
+    public int Categoria { get; set; }
 
 }

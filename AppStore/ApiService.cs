@@ -89,4 +89,32 @@ public class ApiService
 
         
     }
+
+    public static async Task<bool> AgregarProducto(Producto _producto)
+    {
+        string FINAL_URL = BASE_URL + "productos";
+        try
+        {
+            var content = new StringContent(
+                    JsonSerializer.Serialize(_producto),
+                    Encoding.UTF8, "application/json"
+                );
+
+            var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
 }
