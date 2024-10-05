@@ -21,9 +21,7 @@ namespace AppStore
 
 #if DEBUG
     		builder.Logging.AddDebug();
-#endif        
-            
-            
+#endif                    
 
             return builder.Build();
         }

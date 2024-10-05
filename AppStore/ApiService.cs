@@ -52,7 +52,7 @@ public class ApiService
         }
     }
 
-    public async Task<bool> ValidarLogin(string _email, string _password)
+    public async Task<LoginResponseDto> ValidarLogin(string _email, string _password)
     {
         string FINAL_URL = BASE_URL + "usuarios/ValidarCredencial";
         try
@@ -72,21 +72,28 @@ public class ApiService
 
             var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
 
-            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+            var jsonData = await result.Content.ReadAsStringAsync();
+            if (!string.IsNullOrWhiteSpace(jsonData))
             {
-                return true;
+                // Inside the ApiService class
+                var responseObject = JsonSerializer.Deserialize<LoginResponseDto>(jsonData,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                        WriteIndented = true
+                    });
+                return responseObject!;
             }
             else
             {
-                return false;
+                Exception exception = new Exception("Resource Not Found");
+                throw new Exception(exception.Message);
             }
-
         }
         catch(Exception ex)
         {
             throw new Exception(ex.Message);
         }
-
         
     }
 
@@ -100,7 +107,9 @@ public class ApiService
                     Encoding.UTF8, "application/json"
                 );
 
-            var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
+            var result = await httpClient.PostAsync(FINAL_URL, content,).ConfigureAwait(false);
+
+
 
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -115,6 +124,47 @@ public class ApiService
         catch (Exception ex)
         {
             throw new Exception(ex.Message);
+        }
+    }
+
+    public static async Task<Producto> GetProductoPorId(int id)
+    {
+        // string FINAL_URL = BASE_URL + "Productos/ObtenerPorId/"+id;
+
+        string URL = "https://localhost:7028/api/Productos/ObtenerPorId/" + id;
+
+        try
+        {
+            var response = await httpClient.GetAsync(URL);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var jsonData = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrWhiteSpace(jsonData))
+                {
+                    // Inside the ApiService class
+                    var responseObject = JsonSerializer.Deserialize<List<Producto>>(jsonData,
+                        new JsonSerializerOptions
+                        {
+                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                            WriteIndented = true
+                        });
+                    return responseObject!;
+                }
+                else
+                {
+                    Exception exception = new Exception("Resource Not Found");
+                    throw new Exception(exception.Message);
+                }
+            }
+            else
+            {
+                Exception exception = new Exception("Request failed with status code " + response.StatusCode);
+                throw new Exception(exception.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(exception.Message);
         }
     }
 }

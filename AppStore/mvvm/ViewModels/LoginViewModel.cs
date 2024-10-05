@@ -1,4 +1,5 @@
-﻿using AppStore.mvvm.Views;
+﻿using AppStore.mvvm.Models;
+using AppStore.mvvm.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls.Shapes;
@@ -41,16 +42,20 @@ public partial class LoginViewModel : BaseViewModel
             {
                 var apiClient = new ApiService();
 
-                var login = await apiClient.ValidarLogin(Email, Password);
+                LoginResponseDto login = await apiClient.ValidarLogin(Email, Password);
+
+
 
                 if (login != null)
                 {                    
                     Application.Current.MainPage = new NavigationPage(new ProductoListaPage(new ProductoListaViewModel()));
                    
-                   
-                    Transport.IdUsuario = 1;
-                    Transport.RolUsuario = 1;         
-                    
+                    // TODO: recuperar datos de usuario login
+                    Transport.IdUsuario = login.Id;
+                    Transport.RolUsuario = login.IdRol;
+                    Transport.EmailUsuario = login.Email;
+                    Transport.NombreUsuario = login.Nombre;
+
                 }
                 else
                 {

@@ -54,7 +54,7 @@ public partial class ProductoAgregarViewModel : BaseViewModel
             await Application.Current.MainPage.DisplayAlert("Error", "ERROR al grabar.", "Aceptar");
         }
       
-        await Application.Current.MainPage.Navigation.PopToRootAsync();
+        await Application.Current.MainPage.Navigation.PopAsync();
 
 
     }
