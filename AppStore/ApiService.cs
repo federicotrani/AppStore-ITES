@@ -52,13 +52,74 @@ public class ApiService
         }
     }
 
+    // validar login de usuario
+
     public async Task<LoginResponseDto> ValidarLogin(string _email, string _password)
+    {
+        string FINAL_URL = BASE_URL + "usuarios/ValidarCredencial";
+
+        var loginParams = new StringContent(
+                        JsonSerializer.Serialize(
+                            new
+                            {
+                                email = _email,
+                                password = _password,
+                                // password = Encriptar.GetSHA256(_password),
+
+                            }),
+                            Encoding.UTF8, "application/json"
+                        );
+
+        try
+        {
+            var result = await httpClient.PostAsync(FINAL_URL, loginParams).ConfigureAwait(false);
+
+            var json = await result.Content.ReadAsStringAsync();
+
+            
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+
+                var responseLogin = JsonSerializer.Deserialize<LoginResponseDto>(json,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                        WriteIndented = true
+                    });                
+
+                return responseLogin;
+            }
+            else
+            {
+                return null;
+
+                /* responseLogin = new LoginResponseModel
+                {
+                    IdEstablecimiento = 0,
+                    IdUsuario = 0,
+                    Nombre = "",
+                    Autenticado = false,
+                    IdRol = 0,
+                    Email = ""
+                };*/
+            }            
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return null;
+        }      
+    }
+
+    public async Task<LoginResponseDto> ValidarLogin2(string _email, string _password)
     {
         string FINAL_URL = BASE_URL + "usuarios/ValidarCredencial";
         try
         {
             var content = new StringContent(
-                    //JsonConvert.SerializeObject(
+                    
                     JsonSerializer.Serialize(
                         new
                         {
@@ -107,8 +168,7 @@ public class ApiService
                     Encoding.UTF8, "application/json"
                 );
 
-            var result = await httpClient.PostAsync(FINAL_URL, content,).ConfigureAwait(false);
-
+            var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
 
 
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
@@ -142,7 +202,7 @@ public class ApiService
                 if (!string.IsNullOrWhiteSpace(jsonData))
                 {
                     // Inside the ApiService class
-                    var responseObject = JsonSerializer.Deserialize<List<Producto>>(jsonData,
+                    var responseObject = JsonSerializer.Deserialize<Producto>(jsonData,
                         new JsonSerializerOptions
                         {
                             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
