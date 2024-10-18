@@ -6,7 +6,7 @@
              x:DataType="viewModels:LoginViewModel" 
              Title="{Binding Title}">
     <VerticalStackLayout Margin="10">
-        <Image Source="account.png" HeightRequest="150" HorizontalOptions="Center" />
+        <Image Source="dotnet_bot.png" HeightRequest="150" HorizontalOptions="Center" />
         <Grid 
             RowSpacing="10"
             ColumnDefinitions=".3*,.7*" 

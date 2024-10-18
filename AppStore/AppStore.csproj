@@ -57,7 +57,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\account.png" />
 	  <None Remove="Resources\Images\product.png" />
 	</ItemGroup>
 
