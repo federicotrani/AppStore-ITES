@@ -40,10 +40,19 @@
                     SelectedItem="{Binding CategoriaSeleccionada}"
                     ItemsSource="{Binding ListaCategorias}"/>
 
+                
+
+                <Button 
+                    Text="Galeria" 
+                    Grid.Row="6" 
+                    Grid.Column="0" 
+                    Command="{Binding FotoGaleriaCommand}" 
+                    BackgroundColor="Maroon" />
+
                 <Button 
                     Text="Tomar Foto" 
                     Grid.Row="6" 
-                    Grid.Column="0" 
+                    Grid.Column="1" 
                     Command="{Binding TomarFotoCommand}" 
                     BackgroundColor="DarkOliveGreen" />
 

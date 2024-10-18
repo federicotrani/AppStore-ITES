@@ -73,6 +73,35 @@ public partial class ProductoAgregarViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private async Task FotoGaleria()
+    {
+        try
+        {
+            // tomar foto y guardar en variable 
+            if (MediaPicker.Default.IsCaptureSupported)
+            {
+                FileResult foto = await MediaPicker.PickPhotoAsync();
+
+                if (foto != null)
+                {
+                    string localFilePath = Path.Combine(FileSystem.CacheDirectory, foto.FileName);
+                    using Stream source = await foto.OpenReadAsync();
+                    using FileStream fileStream = File.OpenWrite(localFilePath);
+                    await source.CopyToAsync(fileStream);
+
+                    RutaImagen = localFilePath;
+                    Imagen = foto;
+                }
+
+            }
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", "Error al tomar foto", "Aceptar");
+        }
+    }
+
+    [RelayCommand]
     private async Task TomarFoto()
     {
         try
@@ -98,7 +127,6 @@ public partial class ProductoAgregarViewModel : BaseViewModel
         {
             await Application.Current.MainPage.DisplayAlert("Error", "Error al tomar foto", "Aceptar");
         }
-
     }
 
 
