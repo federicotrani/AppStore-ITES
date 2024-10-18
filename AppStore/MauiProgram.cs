@@ -1,5 +1,6 @@
 ﻿using AppStore.mvvm.ViewModels;
 using AppStore.mvvm.Views;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace AppStore
@@ -19,8 +20,10 @@ namespace AppStore
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+           
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif                    
 
             return builder.Build();

@@ -7,6 +7,7 @@ public class Producto
     public string? Descripcion { get; set; }
     public int Stock { get; set; }
     public string RutaImagen { get; set; }
+    public FileResult Imagen { get; set; }
     public decimal Precio { get; set; }
     public int Categoria { get; set; }
 

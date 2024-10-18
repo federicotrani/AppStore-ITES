@@ -74,9 +74,7 @@ public class ApiService
         {
             var result = await httpClient.PostAsync(FINAL_URL, loginParams).ConfigureAwait(false);
 
-            var json = await result.Content.ReadAsStringAsync();
-
-            
+            var json = await result.Content.ReadAsStringAsync();            
 
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -160,7 +158,9 @@ public class ApiService
 
     public static async Task<bool> AgregarProducto(Producto _producto)
     {
+        // metodo body-json
         string FINAL_URL = BASE_URL + "productos";
+        
         try
         {
             var content = new StringContent(
@@ -187,6 +187,47 @@ public class ApiService
         }
     }
 
+    public static async Task<bool> AgregarProductoConImagen(Producto _producto)
+    {
+        // metodo con form-data
+        string FINAL_URL = BASE_URL + "productos/CrearConImagen";
+
+        try
+        {
+
+            // check if the image is null
+            if (_producto.Imagen == null)
+            {
+                throw new Exception("Imagen no puede ser nula");
+            }
+
+            var content = new MultipartFormDataContent();
+            content.Add(new StringContent(_producto.Nombre), "nombre");
+            content.Add(new StringContent(_producto.Descripcion), "descripcion");
+            content.Add(new StringContent(_producto.Stock.ToString()), "stock");
+            content.Add(new StringContent(_producto.Precio.ToString()), "precio");
+            content.Add(new StringContent(_producto.Categoria.ToString()), "categoria");
+            content.Add(new StreamContent(await _producto.Imagen.OpenReadAsync()), "imagen", _producto.RutaImagen );
+
+            var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+
+
+    }
     public static async Task<Producto> GetProductoPorId(int id)
     {
         // string FINAL_URL = BASE_URL + "Productos/ObtenerPorId/"+id;

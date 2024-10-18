@@ -5,6 +5,7 @@ namespace AppStore.mvvm.Views;
 public partial class ProductoAgregarPage : ContentPage
 {
     ProductoAgregarViewModel viewModel;
+    
     public ProductoAgregarPage()
 	{
 		InitializeComponent();

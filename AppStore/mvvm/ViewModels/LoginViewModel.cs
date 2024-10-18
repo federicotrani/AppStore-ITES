@@ -2,7 +2,6 @@
 using AppStore.mvvm.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Controls.Shapes;
 
 namespace AppStore.mvvm.ViewModels;
 
@@ -44,8 +43,6 @@ public partial class LoginViewModel : BaseViewModel
 
                 LoginResponseDto login = await apiClient.ValidarLogin(Email, Password);
 
-
-
                 if (login != null)
                 {                    
                     Application.Current.MainPage = new NavigationPage(new ProductoListaPage(new ProductoListaViewModel()));
@@ -55,7 +52,6 @@ public partial class LoginViewModel : BaseViewModel
                     Transport.RolUsuario = login.IdRol;
                     Transport.EmailUsuario = login.Email;
                     Transport.NombreUsuario = login.Nombre;
-
                 }
                 else
                 {
@@ -69,6 +65,5 @@ public partial class LoginViewModel : BaseViewModel
 
             IsBusy = false;
         }
-
     }
 }

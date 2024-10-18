@@ -38,20 +38,35 @@
                     x:Name="CategoriaPicker"
                     ItemDisplayBinding="{Binding Value}"
                     SelectedItem="{Binding CategoriaSeleccionada}"
-                    ItemsSource="{Binding ListaCategorias}"/> 
+                    ItemsSource="{Binding ListaCategorias}"/>
 
-                <Image Source="product.png" Margin="0,10" HeightRequest="150" HorizontalOptions="Center" Grid.Row="6" Grid.ColumnSpan="2" />
+                <Button 
+                    Text="Tomar Foto" 
+                    Grid.Row="6" 
+                    Grid.Column="0" 
+                    Command="{Binding TomarFotoCommand}" 
+                    BackgroundColor="DarkOliveGreen" />
 
+                <Image 
+                    Aspect="AspectFit"
+                    Source="{Binding RutaImagen}"                     
+                    WidthRequest="300"
+                    HeightRequest="300" 
+                    HorizontalOptions="Center" 
+                    Grid.Row="7" 
+                    Grid.ColumnSpan="2" />
+
+                
                 <Button 
                     Command="{Binding GrabarProductoCommand}"
                     Text="Grabar" 
-                    Grid.Row="7" 
-                    Grid.ColumnSpan="2" />
-                        <Button 
+                    Grid.Row="8" 
+                    Grid.Column="0" />
+                <Button 
                     Command="{Binding CancelarCommand}"
                     Text="Cancelar" 
                     Grid.Row="8" 
-                    Grid.ColumnSpan="2" 
+                    Grid.Column="1"
                     BackgroundColor="DarkMagenta" 
                     TextColor="White"/>
             </Grid>
