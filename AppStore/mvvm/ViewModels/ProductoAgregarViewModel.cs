@@ -18,8 +18,6 @@ public partial class ProductoAgregarViewModel : BaseViewModel
     [ObservableProperty] List<Valor> listaCategorias;
     [ObservableProperty] private Valor categoriaSeleccionada;
 
-  
-
     public ProductoAgregarViewModel()
     {
         Title = Constants.AppName;
@@ -97,7 +95,7 @@ public partial class ProductoAgregarViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert("Error", "Error al tomar foto", "Aceptar");
+            await Application.Current.MainPage.DisplayAlert("Error", "Error al obtener foto", "Aceptar");
         }
     }
 

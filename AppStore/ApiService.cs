@@ -1,6 +1,7 @@
 ﻿using AppStore.mvvm.Models;
 using System.Net.Http;
 using System;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net.Http.Json;
@@ -20,7 +21,57 @@ public class ApiService
 
         try
         {
-            var response = await httpClient.GetAsync(FINAL_URL);
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, FINAL_URL);
+            // inyectamos token JWT obtenido de API al realizar Login
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Transport.Token);
+            
+            // var response = await httpClient.GetAsync(FINAL_URL);
+            var response = await httpClient.SendAsync(requestMessage);
+            
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var jsonData = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrWhiteSpace(jsonData))
+                {
+                    // Inside the ApiService class
+                    var responseObject = JsonSerializer.Deserialize<List<Producto>>(jsonData, 
+                        new JsonSerializerOptions {
+                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                            WriteIndented = true
+                        });
+                    return responseObject!;
+                }
+                else
+                {
+                    Exception exception = new Exception("Resource Not Found");
+                    throw new Exception(exception.Message);
+                }
+            }
+            else
+            {
+                Exception exception = new Exception("Request failed with status code " + response.StatusCode);
+                throw new Exception(exception.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(exception.Message);
+        }
+    }
+    
+    public static async Task<List<Producto>> GetProductosAsync()
+    {       
+        string FINAL_URL = BASE_URL + "productos";
+
+        try
+        {
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, FINAL_URL);
+            // inyectamos token JWT obtenido de API al realizar Login
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Transport.Token);
+            
+            // var response = await httpClient.GetAsync(FINAL_URL);
+            var response = await httpClient.SendAsync(requestMessage);
+            
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var jsonData = await response.Content.ReadAsStringAsync();
@@ -69,7 +120,6 @@ public class ApiService
                             }),
                             Encoding.UTF8, "application/json"
                         );
-
         try
         {
             var result = await httpClient.PostAsync(FINAL_URL, loginParams).ConfigureAwait(false);
@@ -91,16 +141,6 @@ public class ApiService
             else
             {
                 return null;
-
-                /* responseLogin = new LoginResponseModel
-                {
-                    IdEstablecimiento = 0,
-                    IdUsuario = 0,
-                    Nombre = "",
-                    Autenticado = false,
-                    IdRol = 0,
-                    Email = ""
-                };*/
             }            
 
         }
@@ -109,52 +149,7 @@ public class ApiService
             Console.WriteLine(ex.Message);
             return null;
         }      
-    }
-
-    public async Task<LoginResponseDto> ValidarLogin2(string _email, string _password)
-    {
-        string FINAL_URL = BASE_URL + "usuarios/ValidarCredencial";
-        try
-        {
-            var content = new StringContent(
-                    
-                    JsonSerializer.Serialize(
-                        new
-                        {
-                            email = _email,
-                            password = _password,
-                            // password = Encriptar.GetSHA256(_password),
-
-                        }),
-                        Encoding.UTF8, "application/json"
-                    );
-
-            var result = await httpClient.PostAsync(FINAL_URL, content).ConfigureAwait(false);
-
-            var jsonData = await result.Content.ReadAsStringAsync();
-            if (!string.IsNullOrWhiteSpace(jsonData))
-            {
-                // Inside the ApiService class
-                var responseObject = JsonSerializer.Deserialize<LoginResponseDto>(jsonData,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                        WriteIndented = true
-                    });
-                return responseObject!;
-            }
-            else
-            {
-                Exception exception = new Exception("Resource Not Found");
-                throw new Exception(exception.Message);
-            }
-        }
-        catch(Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
-        
-    }
+    }    
 
     public static async Task<bool> AgregarProducto(Producto _producto)
     {

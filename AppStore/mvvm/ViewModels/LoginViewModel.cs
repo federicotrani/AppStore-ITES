@@ -41,21 +41,30 @@ public partial class LoginViewModel : BaseViewModel
             {
                 var apiClient = new ApiService();
 
-                LoginResponseDto login = await apiClient.ValidarLogin(Email, Password);
-
-                if (login != null)
-                {                    
-                    Application.Current.MainPage = new NavigationPage(new ProductoListaPage(new ProductoListaViewModel()));
-                   
-                    // TODO: recuperar datos de usuario login
-                    Transport.IdUsuario = login.Id;
-                    Transport.RolUsuario = login.IdRol;
-                    Transport.EmailUsuario = login.Email;
-                    Transport.NombreUsuario = login.Nombre;
-                }
-                else
+                try
                 {
-                    await Application.Current.MainPage.DisplayAlert("Atención", "Las credenciales ingresadas no son válidas", "Aceptar");
+                    LoginResponseDto login = await apiClient.ValidarLogin(Email, Password);
+
+                    if (login != null)
+                    {                    
+                   
+                        // TODO: recuperar datos de usuario login
+                        Transport.IdUsuario = login.Id;
+                        Transport.RolUsuario = login.IdRol;
+                        Transport.EmailUsuario = login.Email;
+                        Transport.NombreUsuario = login.Nombre;
+                        Transport.Token = login.Token;
+                        
+                        Application.Current.MainPage = new NavigationPage(new ProductoListaPage(new ProductoListaViewModel()));
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Atención", "Las credenciales ingresadas no son válidas", "Aceptar");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Atención", "Error de Servidor. Reintente más tarde", "Aceptar");
                 }
             }
             else
